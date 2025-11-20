@@ -1,0 +1,5 @@
+{
+  "name": "PromptCraft",
+  "description": "An advanced AI prompt enhancement tool that refines user ideas into professional-grade prompts for Image Generation, Video Generation, System Instructions, and Coding tasks using Gemini 2.5.",
+  "requestFramePermissions": []
+}
