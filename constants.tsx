@@ -121,100 +121,219 @@ export const BUILDER_CONFIG: Record<PromptCategory, BuilderConfig> = {
   [PromptCategory.IMAGE]: {
     sections: [
       {
-        title: "Core Concept",
+        title: "Core Concept & Mood",
         fields: [
            { id: 'subject', label: 'Main Subject', type: 'textarea', placeholder: 'What do you want to see? (e.g., An astronaut on Mars)' },
+           { 
+             id: 'mood', label: 'Emotion / Mood', type: 'select',
+             options: [
+                { label: 'Dark & Dramatic', value: 'dark, dramatic, moody atmosphere' },
+                { label: 'Calm & Peaceful', value: 'calm, peaceful, serene, zen-like' },
+                { label: 'Energetic & Vibrant', value: 'energetic, vibrant, dynamic' },
+                { label: 'Futuristic', value: 'futuristic, high-tech, sci-fi' },
+                { label: 'Nostalgic', value: 'nostalgic, retro, vintage feel' },
+                { label: 'Ethereal', value: 'ethereal, dreamlike, mystical' },
+                { label: 'Horror/Grim', value: 'horror, grim, ominous, unsettling' }
+             ]
+           },
+           {
+             id: 'priority', label: 'Subject Priority', type: 'select',
+             options: [
+                { label: 'Character Focus', value: 'focus on character details' },
+                { label: 'Environment Focus', value: 'focus on environment and scenery' },
+                { label: 'Object Focus', value: 'focus on specific object details' },
+                { label: 'Action Focus', value: 'focus on action and movement' }
+             ]
+           },
+           { id: 'keywords', label: 'Keywords Booster', type: 'text', placeholder: 'e.g., masterpiece, award-winning, 8k' }
         ]
       },
       {
-        title: "Format & Composition",
+        title: "Camera & Composition",
         fields: [
+          { 
+            id: 'lens', label: 'Focal Length', type: 'select',
+            options: [
+               { label: '18mm (Wide)', value: '18mm wide angle lens' },
+               { label: '35mm (Standard)', value: '35mm standard lens' },
+               { label: '50mm (Human Eye)', value: '50mm prime lens' },
+               { label: '85mm (Portrait)', value: '85mm portrait lens' },
+               { label: '135mm (Telephoto)', value: '135mm telephoto lens' }
+            ]
+          },
+          { 
+            id: 'angle', label: 'Camera Angle', type: 'select',
+            options: [
+               { label: 'Eye-Level', value: 'eye-level shot' },
+               { label: 'Low Angle', value: 'low angle shot, worm\'s eye view' },
+               { label: 'High Angle', value: 'high angle shot, bird\'s eye view' },
+               { label: 'Dutch Angle', value: 'Dutch angle, tilted frame' },
+               { label: 'Top Down', value: 'top-down, flat lay' }
+            ]
+          },
+          {
+            id: 'dof', label: 'Depth of Field', type: 'select',
+            options: [
+                { label: 'Standard', value: '' },
+                { label: 'Shallow (Bokeh)', value: 'shallow depth of field, bokeh background' },
+                { label: 'Deep (Sharp)', value: 'deep depth of field, sharp focus everywhere' },
+                { label: 'Macro', value: 'macro photography, extreme detail' }
+            ]
+          },
           { 
             id: 'ratio', label: 'Aspect Ratio', type: 'select', 
             options: [
-              { label: 'Square (1:1)', value: 'Square 1:1 aspect ratio' },
-              { label: 'Landscape (16:9)', value: 'Wide 16:9 landscape aspect ratio' },
-              { label: 'Portrait (9:16)', value: 'Tall 9:16 portrait aspect ratio' },
-              { label: 'Ultrawide (21:9)', value: 'Cinematic 21:9 ultrawide aspect ratio' },
-              { label: 'Classic Photo (3:2)', value: 'Classic 3:2 photography aspect ratio' },
-              { label: 'TV (4:3)', value: '4:3 vintage TV aspect ratio' }
+              { label: 'Square (1:1)', value: '--ar 1:1' },
+              { label: 'Landscape (16:9)', value: '--ar 16:9' },
+              { label: 'Portrait (9:16)', value: '--ar 9:16' },
+              { label: 'Ultrawide (21:9)', value: '--ar 21:9' },
+              { label: 'Classic (3:2)', value: '--ar 3:2' },
+              { label: 'TV (4:3)', value: '--ar 4:3' }
+            ] 
+          },
+          { id: 'framing', label: 'Composition Rule', type: 'text', placeholder: 'e.g., Rule of Thirds, Symmetrical, Golden Ratio' }
+        ]
+      },
+      {
+        title: "Visual Style & Rendering",
+        fields: [
+          { 
+            id: 'quality', label: 'Rendering Quality', type: 'select', 
+            options: [
+              { label: 'Photorealistic', value: 'photorealistic, 8k, unreal engine 5' },
+              { label: 'Hyperrealistic', value: 'hyperrealistic, extremely detailed' },
+              { label: 'Stylized', value: 'stylized, artistic' },
+              { label: 'Anime', value: 'anime style, cel shaded' },
+              { label: 'Pixar/Disney', value: 'Pixar style 3D render, cute' },
+              { label: 'Concept Art', value: 'digital concept art, artstation' },
+              { label: 'Illustration', value: 'flat illustration, vector art' }
             ] 
           },
           { 
-            id: 'camera', label: 'Camera Shot Type', type: 'select',
+            id: 'texture', label: 'Texture & Material', type: 'select',
             options: [
-              { label: 'Select View...', value: '' },
-              { label: 'Wide Angle', value: 'wide angle shot, panoramic view' },
-              { label: 'Macro', value: 'macro shot, extreme close-up' },
-              { label: 'Drone View', value: 'aerial drone shot, bird\'s eye view' },
-              { label: 'Portrait (85mm)', value: 'portrait lens (85mm), depth of field' },
-              { label: 'Fish-eye', value: 'distorted fish-eye lens effect' },
-              { label: 'Tilt-Shift', value: 'tilt-shift photography, miniature effect' },
-              { label: 'Thermal', value: 'thermal imaging camera style' },
-              { label: 'Low Angle', value: 'worm\'s eye view, low angle looking up' }
+               { label: 'Matte', value: 'matte finish, non-reflective' },
+               { label: 'Glossy/Shiny', value: 'glossy, shiny, polished' },
+               { label: 'Metallic', value: 'metallic, chrome, reflective' },
+               { label: 'Holographic', value: 'holographic, iridescent' },
+               { label: 'Organic/Rough', value: 'organic texture, rough, gritty' }
             ]
           },
-          { id: 'framing', label: 'Composition Rule', type: 'text', placeholder: 'e.g., Rule of Thirds, Centered, Symmetrical' }
-        ]
-      },
-      {
-        title: "Visual Style",
-        fields: [
           { 
-            id: 'style', label: 'Art Medium', type: 'select', 
+            id: 'palette', label: 'Color Palette', type: 'select',
             options: [
-              { label: 'Select Style...', value: '' },
-              { label: 'Photorealistic (8k)', value: 'Photorealistic, 8k, highly detailed' },
-              { label: 'Cyberpunk', value: 'Cyberpunk, neon lights, futuristic' },
-              { label: 'Cinematic', value: 'Cinematic lighting, movie still, anamorphic lens' },
-              { label: 'Anime/Manga', value: 'Anime style, Studio Ghibli inspired' },
-              { label: 'Oil Painting', value: 'Oil painting on canvas, textured brushstrokes' },
-              { label: '3D Render', value: 'Unreal Engine 5 render, Octane render, 3D' },
-              { label: 'Minimalist', value: 'Minimalist, vector art, clean lines, flat color' },
-              { label: 'Surrealism', value: 'Surrealism, dreamlike, Salvador Dali style' },
-              { label: 'Pixel Art', value: '16-bit pixel art, retro game style' },
-              { label: 'Watercolor', value: 'Watercolor painting, soft edges, bleeding colors' },
-              { label: 'Isometric', value: 'Isometric 3D, diorama look' },
-              { label: 'Low Poly', value: 'Low poly 3D art, geometric shapes' }
-            ] 
+               { label: 'Custom...', value: '' },
+               { label: 'Monochrome', value: 'monochrome, black and white' },
+               { label: 'Neon/Cyberpunk', value: 'neon palette, cyan and magenta' },
+               { label: 'Pastel', value: 'pastel colors, soft tones' },
+               { label: 'Earth Tones', value: 'earth tones, natural colors' },
+               { label: 'High Contrast', value: 'high contrast, vivid colors' },
+               { label: 'Warm', value: 'warm color temperature, orange and yellow' },
+               { label: 'Cold', value: 'cold color temperature, blue and teal' }
+            ]
           },
-          { id: 'artist', label: 'Artist Inspiration', type: 'text', placeholder: 'e.g., Greg Rutkowski, Van Gogh, Wes Anderson' }
+           { id: 'artist', label: 'Artist Inspiration', type: 'text', placeholder: 'e.g., Greg Rutkowski, Van Gogh (Use carefully)' }
         ]
       },
       {
-        title: "Advanced Details",
+         title: "Character & Subject",
+         fields: [
+            { id: 'clothing', label: 'Clothing Style', type: 'text', placeholder: 'e.g., Cyberpunk armor, Victorian dress, Casual hoodie' },
+            { id: 'expression', label: 'Expression', type: 'text', placeholder: 'e.g., Stoic, Joyful, Screaming, Serene' },
+            { id: 'pose', label: 'Pose/Action', type: 'text', placeholder: 'e.g., Jumping, Sitting cross-legged, Fighting stance' }
+         ]
+      },
+      {
+        title: "Environment & Dynamics",
         fields: [
           { 
-            id: 'lighting', label: 'Lighting', type: 'select',
+            id: 'lighting', label: 'Lighting Type', type: 'select',
             options: [
-              { label: 'Select Lighting...', value: '' },
-              { label: 'Golden Hour', value: 'soft golden hour sunlight' },
+              { label: 'Soft/Diffused', value: 'soft diffused lighting' },
+              { label: 'Hard/Dramatic', value: 'hard lighting, strong shadows' },
+              { label: 'Rim Light', value: 'rim lighting, backlighting' },
               { label: 'Volumetric', value: 'volumetric lighting, god rays' },
-              { label: 'Studio', value: 'professional studio lighting, rim light' },
-              { label: 'Dark/Moody', value: 'low key, dark, mysterious atmosphere' },
-              { label: 'Neon', value: 'bright neon signage lighting' },
-              { label: 'Bioluminescent', value: 'bioluminescent glow, magical lighting' },
-              { label: 'Natural', value: 'soft natural daylight' },
-              { label: 'Rembrandt', value: 'Rembrandt lighting, dramatic chiaroscuro' }
+              { label: 'Neon', value: 'neon lights, colored gels' },
+              { label: 'Golden Hour', value: 'golden hour, warm sunlight' },
+              { label: 'Studio 3-Point', value: 'studio 3-point lighting' }
             ]
           },
-          { id: 'palette', label: 'Color Palette', type: 'text', placeholder: 'e.g., Teal and Orange, Monochromatic Red, Pastel' },
-          { id: 'negative', label: 'Negative Prompt (Avoid)', type: 'text', placeholder: 'e.g., blur, distortion, watermark, low quality' }
+          { id: 'weather', label: 'Weather/Atmosphere', type: 'text', placeholder: 'e.g., Rainy, Foggy, Snowy, Sandstorm' },
+          { 
+              id: 'action', label: 'Action Level', type: 'select',
+              options: [
+                  { label: 'Static', value: 'static, still' },
+                  { label: 'Low Motion', value: 'subtle movement' },
+                  { label: 'High Action', value: 'dynamic action, motion blur, chaotic' }
+              ]
+          }
+        ]
+      },
+      {
+        title: "Advanced & Technical",
+        fields: [
+          { id: 'seed', label: 'Seed (Randomness)', type: 'text', placeholder: 'e.g., 12345 (for reproducibility)' },
+          { 
+            id: 'chaos', label: 'Chaos (Variation)', type: 'select',
+            options: [
+                { label: 'Low (0)', value: '--c 0' },
+                { label: 'Medium (20)', value: '--c 20' },
+                { label: 'High (50)', value: '--c 50' },
+                { label: 'Very High (100)', value: '--c 100' }
+            ]
+          },
+          {
+              id: 'stylize', label: 'Stylize (Creativity)', type: 'select',
+              options: [
+                  { label: 'Low (50)', value: '--s 50' },
+                  { label: 'Med (100)', value: '--s 100' },
+                  { label: 'High (250)', value: '--s 250' },
+                  { label: 'Max (750)', value: '--s 750' }
+              ]
+          },
+          { id: 'negative', label: 'Negative Prompt', type: 'text', defaultValue: 'blurry, distorted face, low detail, text artifacts, low resolution, watermark' }
         ]
       }
     ],
     template: (v) => {
       const parts = [];
-      if (v.subject) parts.push(`Subject: ${v.subject}`);
-      if (v.style) parts.push(`Style: ${v.style}`);
-      if (v.artist) parts.push(`Inspired by: ${v.artist}`);
-      if (v.ratio) parts.push(`Format: ${v.ratio}`);
-      if (v.camera) parts.push(`View: ${v.camera}`);
-      if (v.framing) parts.push(`Composition: ${v.framing}`);
-      if (v.lighting) parts.push(`Lighting: ${v.lighting}`);
-      if (v.palette) parts.push(`Colors: ${v.palette}`);
-      if (v.negative) parts.push(`Negative Prompt: ${v.negative}`);
-      return parts.join('. ');
+      // Core
+      if (v.subject) parts.push(v.subject);
+      if (v.priority) parts.push(`Focus: ${v.priority}`);
+      if (v.mood) parts.push(`Mood: ${v.mood}`);
+      if (v.keywords) parts.push(v.keywords);
+      
+      // Style
+      if (v.quality) parts.push(v.quality);
+      if (v.texture) parts.push(v.texture);
+      if (v.palette) parts.push(`Palette: ${v.palette}`);
+      if (v.artist) parts.push(`Style of: ${v.artist}`);
+      
+      // Camera
+      if (v.lens) parts.push(v.lens);
+      if (v.angle) parts.push(v.angle);
+      if (v.dof) parts.push(v.dof);
+      if (v.framing) parts.push(v.framing);
+      
+      // Env
+      if (v.lighting) parts.push(v.lighting);
+      if (v.weather) parts.push(v.weather);
+      if (v.action) parts.push(v.action);
+
+      // Character
+      if (v.clothing) parts.push(`Clothing: ${v.clothing}`);
+      if (v.expression) parts.push(`Expression: ${v.expression}`);
+      if (v.pose) parts.push(`Pose: ${v.pose}`);
+
+      // Params
+      const params = [];
+      if (v.ratio) params.push(v.ratio);
+      if (v.chaos) params.push(v.chaos);
+      if (v.stylize) params.push(v.stylize);
+      if (v.seed) params.push(`--seed ${v.seed}`);
+      if (v.negative) params.push(`--no ${v.negative}`);
+
+      return parts.join(', ') + (params.length > 0 ? ' ' + params.join(' ') : '');
     }
   },
   [PromptCategory.VIDEO]: {
@@ -222,8 +341,21 @@ export const BUILDER_CONFIG: Record<PromptCategory, BuilderConfig> = {
       {
         title: "Core Narrative",
         fields: [
-          { id: 'subject', label: 'Scene Description', type: 'textarea', placeholder: 'What is happening in the scene? Describe the action.' },
-          { id: 'mood', label: 'Atmosphere/Mood', type: 'text', placeholder: 'e.g., Tense, Peaceful, Chaotic, Ethereal' }
+          { id: 'actions', label: 'Character Actions', type: 'textarea', placeholder: 'Describe behavior: running, fighting, dancing, speaking...' },
+          { id: 'character_details', label: 'Character Details', type: 'textarea', placeholder: 'Age, clothes, style (if applicable)' },
+          { id: 'environment', label: 'Environment Description', type: 'textarea', placeholder: 'Interior/Exterior, City, Forest, Time of day...' },
+          { 
+            id: 'structure', label: 'Narrative Structure', type: 'select',
+            options: [
+              { label: 'Static Moment', value: 'Static moment in time' },
+              { label: 'Short Action Sequence', value: 'Short action sequence' },
+              { label: 'Dynamic Chase', value: 'Dynamic chase sequence' },
+              { label: 'Emotional Moment', value: 'Intimate emotional moment' },
+              { label: 'Reveal Scene', value: 'Grand reveal scene' },
+              { label: 'Establishing Shot', value: 'Cinematic establishing shot' }
+            ]
+          },
+          { id: 'keywords', label: 'Keywords Booster', type: 'text', placeholder: 'e.g., high tension, cinematic drama, mystical' }
         ]
       },
       {
@@ -232,25 +364,67 @@ export const BUILDER_CONFIG: Record<PromptCategory, BuilderConfig> = {
            { 
             id: 'movement', label: 'Camera Movement', type: 'select',
             options: [
-              { label: 'Select Movement...', value: '' },
-              { label: 'Dolly In', value: 'Slow dolly in towards the subject' },
-              { label: 'Pan Right', value: 'Smooth pan to the right' },
-              { label: 'Orbit', value: 'Circular orbit around the subject' },
-              { label: 'Tracking', value: 'Fast tracking shot following the action' },
-              { label: 'FPV Drone', value: 'High speed FPV drone flight' },
-              { label: 'Handheld', value: 'Shaky handheld camera' },
-              { label: 'Crane Shot', value: 'Sweeping crane shot lifting up' },
-              { label: 'Vertigo Effect', value: 'Dolly zoom / Vertigo effect' },
-              { label: 'Static', value: 'Static tripod shot, no movement' }
+              { label: 'Static', value: 'Static tripod shot' },
+              { label: 'Dolly In', value: 'Slow dolly in' },
+              { label: 'Dolly Out', value: 'Slow dolly out' },
+              { label: 'Tracking Left', value: 'Tracking shot to the left' },
+              { label: 'Tracking Right', value: 'Tracking shot to the right' },
+              { label: 'Crane Shot', value: 'Sweeping crane shot' },
+              { label: 'Orbit', value: 'Circular orbit around subject' },
+              { label: 'Steadicam Follow', value: 'Smooth Steadicam follow' },
+              { label: 'Handheld Shaky', value: 'Handheld shaky cam' },
+              { label: 'FPV Movement', value: 'Fast FPV drone movement' },
+              { label: 'Tilt / Pan', value: 'Tilt or Pan camera motion' }
             ]
           },
           {
             id: 'angle', label: 'Camera Angle', type: 'select',
             options: [
-              { label: 'Eye Level', value: 'Eye level shot' },
-              { label: 'Low Angle', value: 'Low angle shot looking up' },
-              { label: 'High Angle', value: 'High angle shot looking down' },
-              { label: 'Over the Shoulder', value: 'Over-the-shoulder POV shot' }
+              { label: 'Eye-Level', value: 'Eye-level shot' },
+              { label: 'Low Angle', value: 'Low angle looking up' },
+              { label: 'High Angle', value: 'High angle looking down' },
+              { label: 'Over-the-Shoulder', value: 'Over-the-shoulder POV' },
+              { label: 'Dutch Angle', value: 'Dutch angle tilted' },
+              { label: 'Bird’s Eye', value: 'Bird’s-eye view overhead' },
+              { label: 'Worm’s Eye', value: 'Worm’s-eye view from ground' }
+            ]
+          },
+          {
+            id: 'shot_type', label: 'Shot Type', type: 'select',
+            options: [
+              { label: 'Extreme Close-Up', value: 'Extreme close-up details' },
+              { label: 'Close-Up', value: 'Close-up shot' },
+              { label: 'Medium Shot', value: 'Medium shot' },
+              { label: 'Full Body', value: 'Full body wide shot' },
+              { label: 'Wide Shot', value: 'Wide shot' },
+              { label: 'Extreme Wide', value: 'Extreme wide panoramic shot' },
+              { label: 'Establishing', value: 'Establishing shot' }
+            ]
+          },
+          {
+            id: 'focal_length', label: 'Focal Length', type: 'select',
+            options: [
+              { label: '18mm (Wide)', value: '18mm wide lens' },
+              { label: '35mm (Cinematic)', value: '35mm cinematic lens' },
+              { label: '50mm (Natural)', value: '50mm natural lens' },
+              { label: '85mm (Portrait)', value: '85mm portrait lens' },
+              { label: '135mm (Telephoto)', value: '135mm telephoto compression' }
+            ]
+          },
+          {
+            id: 'framing', label: 'Framing Rules', type: 'text', placeholder: 'e.g., Rule of thirds, Symmetrical, Centered, Leading lines'
+          },
+          {
+            id: 'lighting', label: 'Lighting Type', type: 'select',
+            options: [
+              { label: 'Soft Cinematic', value: 'Soft cinematic lighting' },
+              { label: 'Hard Dramatic', value: 'Hard dramatic high-contrast lighting' },
+              { label: 'Backlit Silhouette', value: 'Backlit silhouette' },
+              { label: 'Rim Light', value: 'Strong rim lighting' },
+              { label: 'Golden Hour', value: 'Golden hour warm light' },
+              { label: 'Neon', value: 'Neon city lights' },
+              { label: 'Volumetric', value: 'Volumetric godrays' },
+              { label: 'Firelight', value: 'Flickering firelight' }
             ]
           }
         ]
@@ -258,30 +432,64 @@ export const BUILDER_CONFIG: Record<PromptCategory, BuilderConfig> = {
       {
         title: "Technical Specs",
         fields: [
-          { 
-            id: 'ratio', label: 'Aspect Ratio', type: 'select', 
-            options: [
-              { label: 'Landscape (16:9)', value: '16:9 landscape' },
-              { label: 'Portrait (9:16)', value: '9:16 portrait for social media' },
-              { label: 'Cinema (2.35:1)', value: '2.35:1 widescreen cinematic' },
-              { label: 'IMAX (1.43:1)', value: '1.43:1 IMAX ratio' }
-            ] 
-          },
           {
-            id: 'resolution', label: 'Resolution', type: 'select',
-            options: [
-                { label: '1080p', value: '1080p HD' },
-                { label: '4K', value: '4K UHD' },
-                { label: '8K', value: '8K Ultra HD' }
-            ]
+             id: 'duration', label: 'Duration', type: 'select',
+             options: [
+               { label: '2 Seconds', value: '2 seconds' },
+               { label: '4 Seconds', value: '4 seconds' },
+               { label: '8 Seconds', value: '8 seconds' },
+               { label: '16 Seconds', value: '16 seconds' }
+             ]
           },
           {
             id: 'fps', label: 'Frame Rate', type: 'select',
             options: [
                 { label: '24 fps (Cinema)', value: '24 fps' },
-                { label: '30 fps (Standard)', value: '30 fps' },
-                { label: '60 fps (Smooth)', value: '60 fps' },
-                { label: '120 fps (Slow Mo)', value: '120 fps slow motion' }
+                { label: '30 fps (TV)', value: '30 fps' },
+                { label: '60 fps (Smooth)', value: '60 fps' }
+            ]
+          },
+          {
+            id: 'resolution', label: 'Resolution', type: 'select',
+            options: [
+                { label: '720p', value: '720p HD' },
+                { label: '1080p', value: '1080p Full HD' },
+                { label: '4K', value: '4K Ultra HD' }
+            ]
+          },
+          { 
+            id: 'ratio', label: 'Aspect Ratio', type: 'select', 
+            options: [
+              { label: '16:9 (Landscape)', value: '16:9 landscape' },
+              { label: '9:16 (Portrait)', value: '9:16 portrait' },
+              { label: '1:1 (Square)', value: '1:1 square' },
+              { label: '2.35:1 (Cinema)', value: '2.35:1 widescreen' }
+            ] 
+          },
+          {
+            id: 'style', label: 'Visual Style', type: 'select',
+            options: [
+              { label: 'Realistic', value: 'Photorealistic live action' },
+              { label: 'Hyperrealistic', value: 'Hyperrealistic' },
+              { label: 'Anime', value: 'Anime style' },
+              { label: '2.5D', value: '2.5D animation' },
+              { label: 'CGI / 3D', value: 'High-end CGI 3D render' },
+              { label: 'Pixar-style', value: 'Pixar animation style' },
+              { label: 'Gritty / Noir', value: 'Gritty noir film' },
+              { label: 'Cyberpunk', value: 'Cyberpunk aesthetic' },
+              { label: 'Vintage Film', value: 'Vintage film grain look' }
+            ]
+          },
+          {
+            id: 'grading', label: 'Color Grading', type: 'select',
+            options: [
+              { label: 'Teal & Orange', value: 'Teal and orange blockbuster grading' },
+              { label: 'Desaturated', value: 'Desaturated muted tones' },
+              { label: 'High Contrast', value: 'High contrast vivid colors' },
+              { label: 'Warm Tones', value: 'Warm nostalgic tones' },
+              { label: 'Cool Tones', value: 'Cool blue tones' },
+              { label: 'Matrix Green', value: 'Matrix style green tint' },
+              { label: 'Neon Palette', value: 'Neon cyberpunk color palette' }
             ]
           }
         ]
@@ -290,29 +498,83 @@ export const BUILDER_CONFIG: Record<PromptCategory, BuilderConfig> = {
          title: "Motion & Effects",
          fields: [
             {
-                id: 'speed', label: 'Action Speed', type: 'select',
+                id: 'intensity', label: 'Motion Intensity', type: 'select',
                 options: [
-                    { label: 'Real-time', value: 'Real-time speed' },
-                    { label: 'Slow Motion', value: 'Cinematic slow motion' },
-                    { label: 'Hyperlapse', value: 'Fast hyperlapse speed' },
-                    { label: 'Stop Motion', value: 'Stop motion animation style' }
+                    { label: 'Subtle', value: 'Subtle motion' },
+                    { label: 'Moderate', value: 'Moderate movement' },
+                    { label: 'High Action', value: 'High intensity action' },
+                    { label: 'Frenetic', value: 'Frenetic fast-paced motion' }
                 ]
             },
-            { id: 'strength', label: 'Motion Strength', type: 'text', placeholder: 'Low, Medium, High (Amount of movement)' }
+            {
+                id: 'physics', label: 'Physics', type: 'select',
+                options: [
+                   { label: 'Natural', value: 'Natural physics' },
+                   { label: 'Slow Motion', value: 'Slow motion fluid physics' },
+                   { label: 'Fast Motion', value: 'Fast forwarded motion' },
+                   { label: 'Zero Gravity', value: 'Zero gravity floating' }
+                ]
+            },
+            { id: 'weather', label: 'Weather Effects', type: 'text', placeholder: 'e.g., Rain, Snow, Fog, Dust, Wind, Storm' },
+            { id: 'env_fx', label: 'Environmental FX', type: 'text', placeholder: 'e.g., Lens flares, Light leaks, Chromatic aberration, Motion blur' },
+            { id: 'vfx', label: 'Special Effects', type: 'text', placeholder: 'e.g., Explosions, Energy beams, Holograms, Smoke bursts' }
          ]
+      },
+      {
+        title: "Audio Options",
+        fields: [
+          {
+            id: 'audio_mood', label: 'Sound Mood', type: 'select',
+            options: [
+              { label: 'Dark Ambient', value: 'Dark ambient soundscape' },
+              { label: 'Futuristic Synth', value: 'Futuristic synthwave soundtrack' },
+              { label: 'Orchestral', value: 'Epic orchestral score' },
+              { label: 'Chill', value: 'Chill lofi beats' },
+              { label: 'Intense', value: 'Intense percussion' }
+            ]
+          },
+          { id: 'sfx', label: 'Sound Effects', type: 'text', placeholder: 'e.g., Footsteps, Engine roar, Rain, Fire crackle' },
+          { id: 'dialogue', label: 'Dialogue', type: 'text', placeholder: 'Enter text for dialogue or leave empty' }
+        ]
       }
     ],
     template: (v) => {
       const parts = [];
-      if (v.subject) parts.push(`Create a video of: ${v.subject}`);
-      if (v.ratio) parts.push(`Aspect Ratio: ${v.ratio}`);
-      if (v.movement) parts.push(`Camera Movement: ${v.movement}`);
+      // Narrative
+      if (v.structure) parts.push(`Structure: ${v.structure}`);
+      if (v.actions) parts.push(`Action: ${v.actions}`);
+      if (v.character_details) parts.push(`Character: ${v.character_details}`);
+      if (v.environment) parts.push(`Environment: ${v.environment}`);
+      if (v.keywords) parts.push(`Keywords: ${v.keywords}`);
+
+      // Cinematography
+      if (v.shot_type) parts.push(`Shot Type: ${v.shot_type}`);
       if (v.angle) parts.push(`Angle: ${v.angle}`);
-      if (v.mood) parts.push(`Atmosphere: ${v.mood}`);
-      if (v.resolution) parts.push(`Resolution: ${v.resolution}`);
-      if (v.fps) parts.push(`Frame Rate: ${v.fps}`);
-      if (v.speed) parts.push(`Speed: ${v.speed}`);
-      if (v.strength) parts.push(`Motion Strength: ${v.strength}`);
+      if (v.movement) parts.push(`Movement: ${v.movement}`);
+      if (v.focal_length) parts.push(`Lens: ${v.focal_length}`);
+      if (v.framing) parts.push(`Framing: ${v.framing}`);
+      if (v.lighting) parts.push(`Lighting: ${v.lighting}`);
+
+      // Tech
+      if (v.style) parts.push(`Style: ${v.style}`);
+      if (v.grading) parts.push(`Color: ${v.grading}`);
+      if (v.ratio) parts.push(`Aspect Ratio: ${v.ratio}`);
+      if (v.resolution) parts.push(`Res: ${v.resolution}`);
+      if (v.fps) parts.push(`FPS: ${v.fps}`);
+      if (v.duration) parts.push(`Duration: ${v.duration}`);
+
+      // Motion & FX
+      if (v.intensity) parts.push(`Motion Intensity: ${v.intensity}`);
+      if (v.physics) parts.push(`Physics: ${v.physics}`);
+      if (v.weather) parts.push(`Weather: ${v.weather}`);
+      if (v.env_fx) parts.push(`Env FX: ${v.env_fx}`);
+      if (v.vfx) parts.push(`VFX: ${v.vfx}`);
+
+      // Audio
+      if (v.audio_mood) parts.push(`Audio Mood: ${v.audio_mood}`);
+      if (v.sfx) parts.push(`SFX: ${v.sfx}`);
+      if (v.dialogue) parts.push(`Dialogue: ${v.dialogue}`);
+
       return parts.join('. ');
     }
   },

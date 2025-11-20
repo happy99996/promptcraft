@@ -23,20 +23,44 @@ const SYSTEM_INSTRUCTIONS: Record<PromptCategory, string> = {
     [Write the highly detailed narrative prompt here. Describe the subject, action, environment, lighting, and style in a cohesive paragraph.]
 
     ### JSON Parameters
-    Provide a structured breakdown used for fine-tuning.
+    Provide a structured breakdown matching professional builder configurations.
     \`\`\`json
     {
-      "subject": "Detailed description of the main subject",
-      "medium": "e.g., Digital Art, Oil Painting, Photography, 3D Render",
-      "style": ["List", "Specific", "Art", "Styles"],
-      "lighting": "Specific lighting description (e.g., Volumetric, Rim, Golden Hour)",
-      "color_palette": ["Primary Color", "Secondary Color", "Accent"],
-      "camera_settings": {
-        "type": "e.g., DSLR, Macro Lens, Wide Angle",
-        "details": "e.g., f/1.8, ISO 100, 85mm"
+      "core_concept": {
+        "subject": "Detailed main subject description",
+        "mood_emotion": "e.g., Dark, Dramatic, Ethereal",
+        "subject_priority": "e.g., Focus on Character",
+        "keywords": "e.g., masterpiece, 8k, award-winning"
       },
-      "composition": "e.g., Rule of thirds, Centered, Low angle",
-      "negative_prompt": "Elements to avoid (e.g., blur, distortion, watermark)"
+      "camera_composition": {
+        "lens_focal_length": "e.g., 35mm, 85mm",
+        "camera_angle": "e.g., Low angle, Dutch angle",
+        "depth_of_field": "e.g., Shallow (Bokeh), Deep",
+        "aspect_ratio": "e.g., --ar 16:9",
+        "framing_rule": "e.g., Rule of Thirds"
+      },
+      "visual_style": {
+        "rendering_quality": "e.g., Photorealistic, Unreal Engine 5",
+        "texture_material": "e.g., Matte, Metallic",
+        "color_palette": "e.g., Neon Cyberpunk, Pastel",
+        "artist_reference": "e.g., Style of Greg Rutkowski (if applicable)"
+      },
+      "character_subject": {
+        "clothing": "Detailed clothing description",
+        "expression": "Facial expression",
+        "pose_action": "Current pose or action"
+      },
+      "environment_dynamics": {
+        "lighting_type": "e.g., Volumetric, Rim Light",
+        "weather_atmosphere": "e.g., Foggy, Rainy",
+        "action_level": "e.g., High Action, Static"
+      },
+      "technical_parameters": {
+        "seed": "Random or specific number",
+        "chaos": "e.g., --c 50",
+        "stylize": "e.g., --s 250",
+        "negative_prompt": "blur, distortion, low quality, text"
+      }
     }
     \`\`\`
     
@@ -56,18 +80,44 @@ const SYSTEM_INSTRUCTIONS: Record<PromptCategory, string> = {
     [Write the dynamic narrative prompt here. Focus on the flow of time and movement.]
 
     ### JSON Parameters
+    Provide a detailed technical breakdown for video production.
     \`\`\`json
     {
-      "subject": "Description of the main subject",
-      "action_sequence": "What happens over time",
-      "camera_movement": "e.g., Dolly In, Pan Right, Aerial Drone Shot",
-      "lighting_atmosphere": "Mood, time of day, weather",
-      "technical_specs": {
-        "fps": "e.g., 24, 60",
-        "resolution": "e.g., 4k",
-        "aspect_ratio": "16:9"
+      "core_narrative": {
+        "character_actions": "Specific behaviors (running, speaking)",
+        "character_details": "Appearance details",
+        "environment": "Setting description",
+        "narrative_structure": "e.g., Dynamic Chase, Reveal Scene",
+        "keywords": "e.g., cinematic, high tension"
       },
-      "motion_strength": "Low/Medium/High"
+      "cinematography": {
+        "camera_movement": "e.g., Dolly In, Orbit, FPV",
+        "camera_angle": "e.g., Low Angle, Bird's Eye",
+        "shot_type": "e.g., Wide Shot, Close-Up",
+        "focal_length": "e.g., 35mm, 85mm",
+        "framing": "e.g., Symmetrical, Center",
+        "lighting": "e.g., Soft Cinematic, Neon"
+      },
+      "technical_specs": {
+        "duration": "e.g., 4s, 8s",
+        "frame_rate": "e.g., 24fps, 60fps",
+        "resolution": "e.g., 4k",
+        "aspect_ratio": "e.g., 16:9, 2.35:1",
+        "visual_style": "e.g., Realistic, Anime, Noir",
+        "color_grading": "e.g., Teal & Orange, Desaturated"
+      },
+      "motion_effects": {
+        "motion_intensity": "e.g., High Action, Subtle",
+        "physics": "e.g., Slow Motion, Zero Gravity",
+        "weather": "e.g., Rain, Snow",
+        "environmental_fx": "e.g., Lens Flares, Motion Blur",
+        "special_effects": "e.g., Explosions, Magic Particles"
+      },
+      "audio_design": {
+        "sound_mood": "e.g., Dark Ambient, Orchestral",
+        "sound_effects": "e.g., Footsteps, Rain",
+        "dialogue": "Spoken lines (if any)"
+      }
     }
     \`\`\`
     
