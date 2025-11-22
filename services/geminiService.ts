@@ -1,4 +1,3 @@
-
 import { GoogleGenAI } from "@google/genai";
 import { PromptCategory } from "../types";
 
@@ -7,7 +6,8 @@ const getClient = () => {
   const apiKey = process.env.API_KEY;
   
   if (!apiKey) {
-    throw new Error("API Key is missing. Please checks your environment variables.");
+    console.error("API Key missing.");
+    throw new Error("API Key is missing. Please check your Environment Variables.");
   }
   return new GoogleGenAI({ apiKey });
 };
