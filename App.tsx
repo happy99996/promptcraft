@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { PromptCategory, HistoryItem } from './types';
 import { enhancePrompt } from './services/geminiService';
@@ -75,7 +76,12 @@ const App: React.FC = () => {
       setHistory(prev => [newHistoryItem, ...prev].slice(0, 50));
     } catch (error) {
       console.error("Enhancement failed:", error);
-      setEnhancedResult("Sorry, something went wrong while enhancing your prompt. Please check your connection or API key and try again.");
+      // Provide better error feedback for missing API key
+      if (error instanceof Error && (error.message.includes("API Key") || error.message.includes("403") || error.message.includes("400"))) {
+        setEnhancedResult("⚠️ Configuration Error: API Key is missing or invalid.\n\nIf you are on Vercel, please go to Settings > Environment Variables and add 'API_KEY'. Then redeploy.");
+      } else {
+        setEnhancedResult("Sorry, something went wrong while enhancing your prompt. Please check your connection and try again.");
+      }
     } finally {
       setIsLoading(false);
     }

@@ -2,12 +2,12 @@
 import { GoogleGenAI } from "@google/genai";
 import { PromptCategory } from "../types";
 
-const apiKey = process.env.API_KEY;
-
-// Initialize the client only when needed to ensure we capture the key if it's set late (though in this env it's usually static)
+// Initialize the client only when needed to ensure we capture the key if it's set late
 const getClient = () => {
+  const apiKey = process.env.API_KEY;
+  
   if (!apiKey) {
-    throw new Error("API Key is missing");
+    throw new Error("API Key is missing. Please checks your environment variables.");
   }
   return new GoogleGenAI({ apiKey });
 };
