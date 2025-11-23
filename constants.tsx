@@ -656,79 +656,236 @@ export const BUILDER_CONFIG: Record<PromptCategory, BuilderConfig> = {
   [PromptCategory.WEB_APP]: {
     sections: [
       {
-        title: "Product Vision",
+        title: "Core Concept",
         fields: [
           { id: 'concept', label: 'App Concept', type: 'textarea', placeholder: 'Describe the application functionality...' },
-          { id: 'users', label: 'Target Audience', type: 'text', placeholder: 'e.g., Small business owners, Students' }
+          { id: 'users', label: 'Target Audience', type: 'text', placeholder: 'e.g., Small business owners, Students' },
+          { id: 'features', label: 'Core Features', type: 'textarea', placeholder: 'List 3-5 must-have features...' }
         ]
       },
       {
-        title: "Technical Architecture",
+        title: "Design Frameworks",
         fields: [
-          { id: 'stack', label: 'Frontend Stack', type: 'text', placeholder: 'e.g., Next.js 14, Tailwind, React' },
-          { id: 'backend', label: 'Backend/Database', type: 'text', placeholder: 'e.g., Supabase, Node.js, PostgreSQL' },
           { 
-            id: 'auth', label: 'Authentication', type: 'select',
+            id: 'frameworks', label: 'CSS/UI Framework', type: 'multiselect',
             options: [
-                { label: 'None', value: '' },
-                { label: 'NextAuth.js', value: 'NextAuth.js' },
-                { label: 'Clerk', value: 'Clerk Authentication' },
-                { label: 'Supabase Auth', value: 'Supabase Auth' },
-                { label: 'Firebase', value: 'Firebase Auth' },
-                { label: 'Auth0', value: 'Auth0' },
-                { label: 'AWS Cognito', value: 'AWS Cognito' },
-                { label: 'Custom JWT', value: 'Custom JWT implementation' }
+              { label: 'TailwindCSS', value: 'Tailwind CSS' },
+              { label: 'Material UI', value: 'Material UI (MUI)' },
+              { label: 'Bootstrap', value: 'Bootstrap' },
+              { label: 'Chakra UI', value: 'Chakra UI' },
+              { label: 'Ant Design', value: 'Ant Design' },
+              { label: 'Shadcn/ui', value: 'Shadcn/ui' },
+              { label: 'Custom CSS', value: 'Custom CSS/SCSS' }
             ]
           },
-          { id: 'deployment', label: 'Deployment', type: 'text', placeholder: 'e.g., Vercel, AWS, Docker' }
+          {
+            id: 'ui_style', label: 'UI Style', type: 'multiselect',
+            options: [
+              { label: 'Minimalist', value: 'Minimalist' },
+              { label: 'Corporate', value: 'Corporate' },
+              { label: 'Modern Clean', value: 'Modern clean' },
+              { label: 'Dark Mode', value: 'Dark mode' },
+              { label: 'Light Mode', value: 'Light mode' },
+              { label: 'Glassmorphism', value: 'Glassmorphism' },
+              { label: 'Neumorphism', value: 'Neumorphism' },
+              { label: 'Futuristic', value: 'Futuristic tech' },
+              { label: 'Retro', value: 'Retro / Playful' },
+              { label: 'Brutalist', value: 'Brutalist UI' }
+            ]
+          }
         ]
       },
       {
-        title: "Features & Logic",
+        title: "Color Palette & Theme",
         fields: [
-           { id: 'features', label: 'Core Features', type: 'textarea', placeholder: 'List 3-5 must-have features...' },
-           { id: 'api', label: 'API Strategy', type: 'select',
+          { id: 'primary_color', label: 'Primary Color', type: 'text', placeholder: 'e.g., #3B82F6 (Blue)' },
+          { id: 'secondary_color', label: 'Secondary Color', type: 'text', placeholder: 'e.g., #10B981 (Emerald)' },
+          { id: 'accent_color', label: 'Accent Color', type: 'text', placeholder: 'e.g., #F43F5E (Rose)' },
+          { id: 'neutral_palette', label: 'Neutral Palette', type: 'text', placeholder: 'e.g., Slate, Gray, Zinc' },
+          { id: 'gradient', label: 'Gradient Options', type: 'text', placeholder: 'e.g., Primary to Accent' }
+        ]
+      },
+      {
+        title: "Typography",
+        fields: [
+          { id: 'font_family', label: 'Font Family', type: 'text', placeholder: 'e.g., Inter, Roboto, Playfair Display' },
+          { id: 'font_scale', label: 'Font Scale', type: 'text', placeholder: 'e.g., XS to 4XL, Major Third' },
+          { id: 'display_font', label: 'Display/Headings Font', type: 'text', placeholder: 'e.g., Cabinet Grotesk' },
+          { id: 'body_font', label: 'Body Font', type: 'text', placeholder: 'e.g., Inter' }
+        ]
+      },
+      {
+        title: "Layout Structure",
+        fields: [
+          { 
+            id: 'header_type', label: 'Header Type', type: 'select',
+            options: [
+              { label: 'Fixed', value: 'Fixed Header' },
+              { label: 'Floating', value: 'Floating Header' },
+              { label: 'Transparent', value: 'Transparent Header' },
+              { label: 'Hidden', value: 'No Header' }
+            ]
+          },
+          {
+            id: 'navbar_style', label: 'Navbar Style', type: 'select',
+            options: [
+              { label: 'Top Bar', value: 'Top Navigation Bar' },
+              { label: 'Side Bar', value: 'Side Navigation Bar' },
+              { label: 'Mega Menu', value: 'Mega Menu' }
+            ]
+          },
+          {
+             id: 'layout_features', label: 'Layout Features', type: 'multiselect',
              options: [
-                { label: 'REST API', value: 'RESTful API endpoints' },
-                { label: 'GraphQL', value: 'GraphQL API' },
-                { label: 'Server Actions', value: 'Next.js Server Actions' },
-                { label: 'TRPC', value: 'TRPC' },
-                { label: 'gRPC', value: 'gRPC' }
+               { label: 'Sidebar Collapsed', value: 'Collapsed Sidebar' },
+               { label: 'Sidebar Expanded', value: 'Expanded Sidebar' },
+               { label: 'Full Width', value: 'Full Width Container' },
+               { label: 'Boxed Layout', value: 'Boxed Layout' },
+               { label: 'Card-Based', value: 'Card-based Layout' },
+               { label: 'Multi-Step Form', value: 'Multi-step Form Layout' }
+             ]
+          }
+        ]
+      },
+      {
+        title: "Component Style",
+        fields: [
+          {
+            id: 'buttons', label: 'Button Set', type: 'multiselect',
+            options: [
+              { label: 'Primary', value: 'Primary Buttons' },
+              { label: 'Outline', value: 'Outline Buttons' },
+              { label: 'Ghost', value: 'Ghost Buttons' },
+              { label: 'Soft/Tinted', value: 'Soft Background Buttons' }
+            ]
+          },
+          {
+            id: 'inputs', label: 'Input Style', type: 'select',
+            options: [
+              { label: 'Rounded', value: 'Rounded Inputs' },
+              { label: 'Sharp', value: 'Sharp Inputs' },
+              { label: 'Underlined', value: 'Underlined Inputs' },
+              { label: 'Glass', value: 'Glass Inputs' }
+            ]
+          },
+          {
+            id: 'cards', label: 'Card Style', type: 'select',
+            options: [
+              { label: 'Flat', value: 'Flat Cards' },
+              { label: 'Shadowed', value: 'Shadowed Cards' },
+              { label: 'Elevated', value: 'Elevated Cards' },
+              { label: 'Bordered', value: 'Bordered Cards' }
+            ]
+          }
+        ]
+      },
+      {
+        title: "Iconography & Assets",
+        fields: [
+          {
+             id: 'icons', label: 'Icon Set', type: 'select',
+             options: [
+               { label: 'Lucide React', value: 'Lucide React' },
+               { label: 'Heroicons', value: 'Heroicons' },
+               { label: 'FontAwesome', value: 'FontAwesome' },
+               { label: 'Radix Icons', value: 'Radix Icons' },
+               { label: 'Custom SVG', value: 'Custom SVG Icons' }
+             ]
+          },
+          {
+             id: 'icon_style', label: 'Icon Style', type: 'select',
+             options: [
+               { label: 'Stroke (Line)', value: 'Stroke/Line Icons' },
+               { label: 'Filled (Solid)', value: 'Filled/Solid Icons' },
+               { label: 'Duotone', value: 'Duotone Icons' }
+             ]
+          }
+        ]
+      },
+      {
+        title: "Animation & Motion",
+        fields: [
+           {
+             id: 'animation', label: 'Motion Features', type: 'multiselect',
+             options: [
+               { label: 'Page Transitions', value: 'Page Transitions' },
+               { label: 'Hover Effects', value: 'Hover Effects' },
+               { label: 'Micro-interactions', value: 'Micro-interactions' },
+               { label: 'Smooth Scrolling', value: 'Smooth Scrolling' },
+               { label: 'Lottie Animations', value: 'Lottie Animations' },
+               { label: 'Fade In', value: 'Fade In on Scroll' }
              ]
            }
         ]
       },
       {
-        title: "Design System",
+        title: "Technical Stack",
         fields: [
-          { 
-            id: 'design', label: 'Design Aesthetic', type: 'select',
-            options: [
-              { label: 'Modern SaaS', value: 'Clean, minimal, B2B SaaS aesthetic' },
-              { label: 'Dark Mode', value: 'Futuristic, dark mode, neon accents' },
-              { label: 'Playful', value: 'Colorful, rounded corners, playful UI' },
-              { label: 'Corporate', value: 'Professional, trustworthy, blue/grey tones' },
-              { label: 'Brutalist', value: 'Brutalist, high contrast, large typography' },
-              { label: 'Glassmorphism', value: 'Glassmorphism, blurred backgrounds, translucency' },
-              { label: 'Neumorphism', value: 'Neumorphism, soft shadows, tactile feel' }
-            ]
-          },
-          { id: 'colors', label: 'Primary Colors', type: 'text', placeholder: 'e.g., Indigo & White' }
+          { id: 'frontend', label: 'Frontend Stack', type: 'text', placeholder: 'e.g., Next.js 14, React' },
+          { id: 'backend', label: 'Backend/DB', type: 'text', placeholder: 'e.g., Node.js, PostgreSQL' },
+          { id: 'auth', label: 'Authentication', type: 'text', placeholder: 'e.g., Clerk, NextAuth' }
+        ]
+      },
+      {
+        title: "Accessibility & Brand",
+        fields: [
+           {
+             id: 'a11y', label: 'Accessibility', type: 'multiselect',
+             options: [
+               { label: 'WCAG 2.2', value: 'WCAG 2.2 Compliance' },
+               { label: 'High Contrast', value: 'High Contrast Support' },
+               { label: 'Screen Reader', value: 'Screen Reader Optimized' },
+               { label: 'Keyboard Nav', value: 'Full Keyboard Navigation' },
+               { label: 'Reduced Motion', value: 'Reduced Motion Support' }
+             ]
+           },
+           {
+             id: 'brand_tone', label: 'Brand Tone', type: 'select',
+             options: [
+               { label: 'Tech/Serious', value: 'Tech-focused and Serious' },
+               { label: 'Playful', value: 'Playful and Friendly' },
+               { label: 'Luxury', value: 'Luxury and Elegant' },
+               { label: 'Trustworthy', value: 'Trustworthy and Corporate' }
+             ]
+           }
         ]
       }
     ],
     template: (v) => {
       const parts = [];
-      if (v.concept) parts.push(`Build a Web Application: ${v.concept}`);
-      if (v.users) parts.push(`Target Audience: ${v.users}`);
-      if (v.stack) parts.push(`Frontend: ${v.stack}`);
+      if (v.concept) parts.push(`Concept: ${v.concept}`);
+      if (v.users) parts.push(`Audience: ${v.users}`);
+      if (v.features) parts.push(`Features: ${v.features}`);
+      
+      if (v.frameworks) parts.push(`Frameworks: ${v.frameworks}`);
+      if (v.ui_style) parts.push(`UI Style: ${v.ui_style}`);
+      
+      if (v.primary_color) parts.push(`Primary Color: ${v.primary_color}`);
+      if (v.secondary_color) parts.push(`Secondary Color: ${v.secondary_color}`);
+      if (v.accent_color) parts.push(`Accent Color: ${v.accent_color}`);
+      if (v.neutral_palette) parts.push(`Neutral Palette: ${v.neutral_palette}`);
+      
+      if (v.font_family) parts.push(`Font: ${v.font_family}`);
+      if (v.display_font) parts.push(`Headings: ${v.display_font}`);
+      
+      if (v.header_type) parts.push(`Header: ${v.header_type}`);
+      if (v.navbar_style) parts.push(`Navbar: ${v.navbar_style}`);
+      if (v.layout_features) parts.push(`Layout: ${v.layout_features}`);
+      
+      if (v.buttons) parts.push(`Buttons: ${v.buttons}`);
+      if (v.inputs) parts.push(`Inputs: ${v.inputs}`);
+      if (v.cards) parts.push(`Cards: ${v.cards}`);
+      
+      if (v.icons) parts.push(`Icons: ${v.icons} (${v.icon_style})`);
+      if (v.animation) parts.push(`Animation: ${v.animation}`);
+      
+      if (v.frontend) parts.push(`Frontend: ${v.frontend}`);
       if (v.backend) parts.push(`Backend: ${v.backend}`);
       if (v.auth) parts.push(`Auth: ${v.auth}`);
-      if (v.deployment) parts.push(`Deployment: ${v.deployment}`);
-      if (v.features) parts.push(`Core Features: ${v.features}`);
-      if (v.api) parts.push(`API Strategy: ${v.api}`);
-      if (v.design) parts.push(`Design Style: ${v.design}`);
-      if (v.colors) parts.push(`Colors: ${v.colors}`);
+      
+      if (v.a11y) parts.push(`Accessibility: ${v.a11y}`);
+      if (v.brand_tone) parts.push(`Brand Tone: ${v.brand_tone}`);
+      
       return parts.join('.\n');
     }
   },

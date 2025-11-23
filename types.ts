@@ -35,7 +35,7 @@ export interface CategoryConfig {
 export type EnhancementStatus = 'idle' | 'loading' | 'success' | 'error';
 
 // Builder Types
-export type BuilderFieldType = 'text' | 'textarea' | 'select';
+export type BuilderFieldType = 'text' | 'textarea' | 'select' | 'multiselect';
 
 export interface BuilderOption {
   label: string;
@@ -47,7 +47,7 @@ export interface BuilderField {
   label: string;
   type: BuilderFieldType;
   placeholder?: string;
-  options?: BuilderOption[]; // Only for 'select'
+  options?: BuilderOption[]; // Only for 'select' or 'multiselect'
   defaultValue?: string;
   prefix?: string; // Text to prepend when building string (e.g. "Style: ")
 }

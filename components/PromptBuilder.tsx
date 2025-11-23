@@ -1,14 +1,112 @@
 
-import React, { useEffect, useState } from 'react';
-import { PromptCategory, CategoryConfig } from '../types';
+import React, { useEffect, useState, useRef } from 'react';
+import { PromptCategory, CategoryConfig, BuilderOption } from '../types';
 import { BUILDER_CONFIG } from '../constants';
-import { Settings2, RotateCcw, ChevronDown, ChevronUp, CheckCircle2 } from 'lucide-react';
+import { Settings2, RotateCcw, ChevronDown, ChevronUp, CheckCircle2, X, Check } from 'lucide-react';
 
 interface PromptBuilderProps {
   category: PromptCategory;
   config: CategoryConfig;
   onUpdate: (builtPrompt: string) => void;
 }
+
+// Internal MultiSelect Component
+const MultiSelectField = ({ 
+  options = [], 
+  value, 
+  onChange, 
+  placeholder, 
+  baseColor 
+}: { 
+  options?: BuilderOption[], 
+  value: string, 
+  onChange: (val: string) => void, 
+  placeholder?: string,
+  baseColor: string
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  // Value is stored as comma-separated string
+  const selectedValues = value ? value.split(', ').filter(Boolean) : [];
+
+  const toggleOption = (optValue: string) => {
+    let newValues;
+    if (selectedValues.includes(optValue)) {
+      newValues = selectedValues.filter(v => v !== optValue);
+    } else {
+      newValues = [...selectedValues, optValue];
+    }
+    onChange(newValues.join(', '));
+  };
+
+  const removeValue = (e: React.MouseEvent, val: string) => {
+    e.stopPropagation();
+    onChange(selectedValues.filter(v => v !== val).join(', '));
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  return (
+    <div className="relative group/input" ref={containerRef}>
+      <div 
+        onClick={() => setIsOpen(!isOpen)}
+        className={`
+          w-full bg-black/20 border border-slate-700/80 rounded-lg px-4 py-2.5 min-h-[46px] text-sm text-slate-200 cursor-pointer transition-all shadow-sm flex flex-wrap gap-2 items-center
+          ${isOpen ? `border-${baseColor}-500 ring-1 ring-${baseColor}-500/50` : 'hover:border-slate-600'}
+        `}
+      >
+        {selectedValues.length === 0 && (
+          <span className="text-slate-600">{placeholder || 'Select options...'}</span>
+        )}
+        
+        {selectedValues.map(val => {
+          const label = options.find(o => o.value === val)?.label || val;
+          return (
+            <span key={val} className={`bg-${baseColor}-900/40 border border-${baseColor}-500/30 text-${baseColor}-200 text-xs px-2 py-1 rounded-md flex items-center gap-1`}>
+              {label}
+              <X className="w-3 h-3 cursor-pointer hover:text-white" onClick={(e) => removeValue(e, val)} />
+            </span>
+          );
+        })}
+
+        <div className="ml-auto text-slate-500">
+          <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        </div>
+      </div>
+
+      {isOpen && (
+        <div className="absolute z-50 w-full mt-1 bg-[#161b2c] border border-slate-700 rounded-lg shadow-xl max-h-60 overflow-y-auto custom-scrollbar">
+          {options.map((opt) => {
+            const isSelected = selectedValues.includes(opt.value);
+            return (
+              <div 
+                key={opt.value}
+                onClick={() => toggleOption(opt.value)}
+                className={`
+                  px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between transition-colors
+                  ${isSelected ? 'bg-slate-800 text-white' : 'text-slate-300 hover:bg-slate-800/50'}
+                `}
+              >
+                <span>{opt.label}</span>
+                {isSelected && <Check className={`w-3.5 h-3.5 text-${baseColor}-400`} />}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+};
 
 const PromptBuilder: React.FC<PromptBuilderProps> = ({ category, config, onUpdate }) => {
   const builderConfig = BUILDER_CONFIG[category];
@@ -51,9 +149,9 @@ const PromptBuilder: React.FC<PromptBuilderProps> = ({ category, config, onUpdat
   const baseColor = config.textColor.split('-')[1] || 'slate';
 
   return (
-    <div className={`w-full mb-8 bg-[#121623] border border-slate-800/60 rounded-xl shadow-2xl animate-fade-in relative overflow-hidden group`}>
-      {/* Left Accent Border */}
-      <div className={`absolute top-0 left-0 w-1.5 h-full ${config.bgColor}`}></div>
+    <div className={`w-full mb-8 bg-[#121623] border border-slate-800/60 rounded-xl shadow-2xl animate-fade-in relative group z-10`}>
+      {/* Left Accent Border - rounded to match container since overflow is visible */}
+      <div className={`absolute top-0 left-0 w-1.5 h-full rounded-l-xl ${config.bgColor}`}></div>
       
       {/* Header */}
       <div className="flex items-center justify-between p-4 md:p-5 border-b border-slate-800/50 bg-[#161b2c]/50">
@@ -125,7 +223,15 @@ const PromptBuilder: React.FC<PromptBuilderProps> = ({ category, config, onUpdat
                               {field.label}
                             </label>
                             
-                            {field.type === 'select' ? (
+                            {field.type === 'multiselect' ? (
+                                <MultiSelectField 
+                                    options={field.options}
+                                    value={formValues[field.id] || ''}
+                                    onChange={(val) => handleChange(field.id, val)}
+                                    placeholder={field.placeholder}
+                                    baseColor={baseColor}
+                                />
+                            ) : field.type === 'select' ? (
                               <div className="relative group/input">
                                 <select
                                   value={formValues[field.id] || ''}

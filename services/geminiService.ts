@@ -3,13 +3,8 @@ import { PromptCategory } from "../types";
 
 // Initialize the client only when needed to ensure we capture the key if it's set late
 const getClient = () => {
-  const apiKey = process.env.API_KEY;
-  
-  if (!apiKey) {
-    console.error("API Key missing.");
-    throw new Error("API Key is missing. Please check your Environment Variables.");
-  }
-  return new GoogleGenAI({ apiKey });
+  // The API key must be obtained exclusively from the environment variable process.env.API_KEY.
+  return new GoogleGenAI({ apiKey: process.env.API_KEY });
 };
 
 const SYSTEM_INSTRUCTIONS: Record<PromptCategory, string> = {
@@ -138,8 +133,8 @@ const SYSTEM_INSTRUCTIONS: Record<PromptCategory, string> = {
     - Output ONLY the system prompt text.
   `,
   [PromptCategory.WEB_APP]: `
-    You are an Elite Full-Stack Software Architect. The user wants to build a complex Web Application.
-    Enhance their idea into a comprehensive **Product Requirement Document (PRD)** and a **Coding Prompt** optimized for AI generation tools.
+    You are an Elite Full-Stack Software Architect and UI/UX Designer. The user wants to build a complex Web Application.
+    Enhance their idea into a comprehensive **Product Requirement Document (PRD)**, a **Detailed Design System Specification**, and a **Coding Prompt** optimized for AI generation tools.
 
     Structure the response in Markdown using these specific headers:
 
@@ -166,6 +161,25 @@ const SYSTEM_INSTRUCTIONS: Record<PromptCategory, string> = {
     2. **[Feature Name]**: Technical description.
     ...
 
+    ## 🎨 Design System & UI/UX
+    *Derived from the input preferences and best practices.*
+    - **Frameworks:** [e.g., TailwindCSS, Material UI, Shadcn/ui]
+    - **Visual Style:** [e.g., Minimalist, Glassmorphism, Dark Mode]
+    - **Color Palette:**
+      - **Primary:** [Hex Code]
+      - **Secondary:** [Hex Code]
+      - **Accent:** [Hex Code]
+      - **Neutral:** [Hex Code]
+    - **Typography:**
+      - **Headings:** [Font Family]
+      - **Body:** [Font Family]
+    - **Component Styling:**
+      - **Buttons:** [e.g., Rounded, Ghost, Primary]
+      - **Cards:** [e.g., Flat, Shadowed, Bordered]
+      - **Inputs:** [e.g., Rounded, Glass]
+    - **Layout:** [e.g., Sidebar Navigation, Fixed Header, Full Width]
+    - **Motion & Accessibility:** [e.g., Page Transitions, WCAG 2.2 Compliance]
+
     ## 🤖 AI Coder Prompt (Copy & Paste)
     > Use this prompt in tools like v0.dev, Lovable, or Cursor to generate the UI/Code.
     
@@ -175,12 +189,32 @@ const SYSTEM_INSTRUCTIONS: Record<PromptCategory, string> = {
     Core Features:
     [List of 4-5 key features derived from the user's request]
     
-    Visual References:
-    [List of 2-3 real-world apps or styles that fit this concept, e.g., "Inspired by Airbnb's clean search..."]
-    
-    Style Guide:
-    Colors: [Specific primary, secondary, background, and accent colors with Hex codes if possible]
-    Design: [Font choices, layout style (e.g., card-based, sidebar navigation), spacing, and interaction feel]
+    Design Specifications:
+    - Tech Stack: [Frontend/Backend]
+    - Framework: [CSS Framework]
+    - Theme: [Color Palette & Style]
+    - Layout: [Navigation Structure]
+    \`\`\`
+
+    ## ⚙️ JSON Configuration
+    \`\`\`json
+    {
+      "app_metadata": {
+        "name": "App Name",
+        "description": "Short description"
+      },
+      "tech_stack": {
+        "frontend": "Next.js 14, React, Tailwind",
+        "backend": "Node.js / Supabase",
+        "database": "PostgreSQL"
+      },
+      "design_system": {
+        "style": "Minimalist Dark Mode",
+        "primary_color": "#...",
+        "font_family": "Inter"
+      },
+      "features": ["Feature 1", "Feature 2", "Feature 3"]
+    }
     \`\`\`
   `,
   [PromptCategory.MOBILE_APP]: `
