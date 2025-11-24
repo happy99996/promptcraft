@@ -1,10 +1,13 @@
+
 import { GoogleGenAI } from "@google/genai";
 import { PromptCategory } from "../types";
 
 // Initialize the client only when needed to ensure we capture the key if it's set late
 const getClient = () => {
   // The API key must be obtained exclusively from the environment variable process.env.API_KEY.
-  return new GoogleGenAI({ apiKey: process.env.API_KEY });
+  // We check multiple sources for compatibility with Vercel and local dev.
+  const key = process.env.API_KEY; 
+  return new GoogleGenAI({ apiKey: key });
 };
 
 const SYSTEM_INSTRUCTIONS: Record<PromptCategory, string> = {
@@ -121,6 +124,58 @@ const SYSTEM_INSTRUCTIONS: Record<PromptCategory, string> = {
     - Specify the atmosphere and temporal consistency.
     - Mention camera movement explicitly.
     - Ensure the JSON breakdown is technical and precise.
+  `,
+  [PromptCategory.GAMES]: `
+    You are a Senior Game Designer and Producer. The user wants to conceptualize a Video Game.
+    Enhance their idea into a professional **Game Design Document (GDD) Summary**.
+
+    Structure the response in Markdown using these specific headers:
+
+    # 🎮 Game Executive Pitch
+    [A high-concept elevator pitch describing the unique value proposition and the "fun factor".]
+
+    ## ⚔️ Core Mechanics & Loop
+    - **Genre:** [e.g., Roguelike Deckbuilder]
+    - **Perspective:** [e.g., Isometric Top-Down]
+    - **Core Loop:** [e.g., Explore -> Collect Cards -> Fight Boss -> Permadeath]
+    - **Controls:** [e.g., Twin-stick shooter, Point & Click]
+
+    ## 🎨 Visuals & Audio
+    - **Art Style:** [e.g., Pixel Art, Low Poly, Hyper-Realistic UE5]
+    - **Atmosphere:** [e.g., Dark Fantasy, Neon Cyberpunk]
+    - **Engine:** [e.g., Unity, Unreal, Godot]
+
+    ## 🤖 AI Asset Prompts (Copy & Paste)
+    > Use these prompts to generate assets for your game.
+    
+    **Environment Prompt:**
+    \`\`\`text
+    [Detailed prompt for generating a game level background or skybox]
+    \`\`\`
+    
+    **Character Prompt:**
+    \`\`\`text
+    [Detailed prompt for generating the main character sprite or model sheet]
+    \`\`\`
+
+    ## ⚙️ JSON Config
+    \`\`\`json
+    {
+      "game_metadata": {
+        "title": "Game Title",
+        "genre": "RPG",
+        "target_platform": ["PC", "Switch"]
+      },
+      "mechanics": {
+        "view": "Top-Down",
+        "multiplayer": "Co-op"
+      },
+      "visuals": {
+        "style": "Pixel Art",
+        "engine": "Unity"
+      }
+    }
+    \`\`\`
   `,
   [PromptCategory.SYSTEM]: `
     You are a Senior AI Architect. Your task is to write robust "System Instructions" or "System Prompts" for Large Language Models.

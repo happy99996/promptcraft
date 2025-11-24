@@ -8,8 +8,8 @@ interface LogoProps {
 
 const Logo: React.FC<LogoProps> = ({ className, mousePos = { x: 0, y: 0 } }) => {
   // Calculate eye movement (clamped)
-  const eyeX = mousePos.x * 2.5;
-  const eyeY = mousePos.y * 2.5;
+  const eyeX = mousePos.x * 2.0; // Reduced movement slightly for the robot frame
+  const eyeY = mousePos.y * 2.0;
 
   return (
     <svg
@@ -27,20 +27,29 @@ const Logo: React.FC<LogoProps> = ({ className, mousePos = { x: 0, y: 0 } }) => 
           }
           .logo-eyes {
             animation: blink 4s infinite;
-            transform-origin: 16px 13px;
+            transform-origin: 16px 14px;
           }
         `}
       </style>
 
-      {/* Face Contour (Squircle) */}
+      {/* Antenna */}
+      <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      <circle cx="16" cy="2" r="1.5" fill="currentColor" />
+
+      {/* Ears / Bolts */}
+      <rect x="1" y="14" width="3" height="6" rx="1" fill="currentColor" />
+      <rect x="28" y="14" width="3" height="6" rx="1" fill="currentColor" />
+
+      {/* Head */}
       <rect 
-        x="2" 
-        y="2" 
-        width="28" 
-        height="28" 
-        rx="9" 
+        x="4" 
+        y="6" 
+        width="24" 
+        height="22" 
+        rx="6" 
         stroke="currentColor" 
-        strokeWidth="2.5" 
+        strokeWidth="2.5"
+        fill="none" 
       />
 
       {/* Features */}
@@ -50,15 +59,15 @@ const Logo: React.FC<LogoProps> = ({ className, mousePos = { x: 0, y: 0 } }) => 
             {/* Blinking Group */}
             <g className="logo-eyes">
               {/* Left Eye */}
-              <ellipse cx="10.5" cy="13" rx="2.5" ry="3" fill="currentColor" />
+              <circle cx="11.5" cy="14" r="2.5" fill="currentColor" />
               {/* Right Eye */}
-              <ellipse cx="21.5" cy="13" rx="2.5" ry="3" fill="currentColor" />
+              <circle cx="20.5" cy="14" r="2.5" fill="currentColor" />
             </g>
          </g>
 
          {/* Mouth (Static smile) */}
          <path
-           d="M10 21 C10 21 13 25 16 25 C19 25 22 21 22 21"
+           d="M11 21 C11 21 13.5 24 16 24 C18.5 24 21 21 21 21"
            stroke="currentColor"
            strokeWidth="2.5"
            strokeLinecap="round"

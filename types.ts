@@ -5,7 +5,8 @@ export enum PromptCategory {
   SYSTEM = 'SYSTEM',
   WEB_APP = 'WEB_APP',
   MOBILE_APP = 'MOBILE_APP',
-  WEBSITE = 'WEBSITE'
+  WEBSITE = 'WEBSITE',
+  GAMES = 'GAMES'
 }
 
 export interface HistoryItem {

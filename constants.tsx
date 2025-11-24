@@ -1,6 +1,6 @@
 
 import { PromptCategory, CategoryConfig, BuilderConfig } from './types';
-import { Image, Video, Terminal, AppWindow, Smartphone, Globe } from 'lucide-react';
+import { Image, Video, Terminal, AppWindow, Smartphone, Globe, Gamepad2 } from 'lucide-react';
 import React from 'react';
 
 export const CATEGORIES: CategoryConfig[] = [
@@ -33,6 +33,21 @@ export const CATEGORIES: CategoryConfig[] = [
     glowColor: 'shadow-[0_0_15px_rgba(225,29,72,0.25)]',
     gradientFrom: 'from-rose-600',
     gradientTo: 'to-yellow-400'
+  },
+  {
+    id: PromptCategory.GAMES,
+    label: 'Game Design',
+    description: 'Game concepts, mechanics, and asset prompts.',
+    icon: 'gamepad-2',
+    // Violet -> Fuchsia Gradient
+    textColor: 'text-fuchsia-400',
+    borderColor: 'border-fuchsia-500/50',
+    bgColor: 'bg-fuchsia-600',
+    hoverBgColor: 'hover:bg-fuchsia-500',
+    shadowColor: 'shadow-fuchsia-900/20',
+    glowColor: 'shadow-[0_0_15px_rgba(192,38,211,0.25)]',
+    gradientFrom: 'from-violet-600',
+    gradientTo: 'to-fuchsia-500'
   },
   {
     id: PromptCategory.SYSTEM,
@@ -103,12 +118,14 @@ export const IconMap: Record<string, React.FC<{ className?: string }>> = {
   'terminal': Terminal,
   'app-window': AppWindow,
   'smartphone': Smartphone,
-  'globe': Globe
+  'globe': Globe,
+  'gamepad-2': Gamepad2
 };
 
 export const PLACEHOLDERS: Record<PromptCategory, string> = {
   [PromptCategory.IMAGE]: "e.g., A futuristic city with neon lights in cyberpunk style...",
   [PromptCategory.VIDEO]: "e.g., A drone shot flying through a canyon at sunset...",
+  [PromptCategory.GAMES]: "e.g., A rogue-like dungeon crawler set in a candy kingdom...",
   [PromptCategory.SYSTEM]: "e.g., You are a helpful customer service agent for a bank...",
   [PromptCategory.WEB_APP]: "e.g., A SaaS dashboard for project management with real-time collaboration...",
   [PromptCategory.MOBILE_APP]: "e.g., A fitness tracking app with social features for iOS...",
@@ -575,6 +592,111 @@ export const BUILDER_CONFIG: Record<PromptCategory, BuilderConfig> = {
       if (v.sfx) parts.push(`SFX: ${v.sfx}`);
       if (v.dialogue) parts.push(`Dialogue: ${v.dialogue}`);
 
+      return parts.join('. ');
+    }
+  },
+  [PromptCategory.GAMES]: {
+    sections: [
+      {
+        title: "Core Gameplay",
+        fields: [
+          { id: 'title', label: 'Game Title', type: 'text', placeholder: 'e.g., Neon Survivors' },
+          { 
+            id: 'genre', label: 'Genre', type: 'multiselect', 
+            options: [
+              { label: 'RPG', value: 'RPG' },
+              { label: 'FPS', value: 'FPS' },
+              { label: 'Action-Adventure', value: 'Action-Adventure' },
+              { label: 'Platformer', value: 'Platformer' },
+              { label: 'Strategy (RTS/TBS)', value: 'Strategy' },
+              { label: 'Puzzle', value: 'Puzzle' },
+              { label: 'Roguelike', value: 'Roguelike' },
+              { label: 'Simulation', value: 'Simulation' }
+            ]
+          },
+          {
+            id: 'perspective', label: 'Perspective', type: 'select',
+            options: [
+              { label: 'Top-Down', value: 'Top-Down view' },
+              { label: 'First-Person', value: 'First-Person perspective' },
+              { label: 'Third-Person', value: 'Third-Person over the shoulder' },
+              { label: 'Isometric', value: 'Isometric view' },
+              { label: 'Side-Scroller', value: '2D Side-Scroller' }
+            ]
+          },
+          { id: 'setting', label: 'Theme/Setting', type: 'textarea', placeholder: 'e.g., Cyberpunk Tokyo, Medieval Fantasy, Space Station...' }
+        ]
+      },
+      {
+        title: "Visuals & Art Style",
+        fields: [
+           {
+             id: 'art_style', label: 'Art Style', type: 'select',
+             options: [
+               { label: 'Pixel Art', value: 'Pixel Art' },
+               { label: 'Low Poly', value: 'Low Poly 3D' },
+               { label: 'Photorealistic', value: 'Photorealistic' },
+               { label: 'Stylized (Fortnite)', value: 'Stylized PBR' },
+               { label: 'Hand-Drawn', value: 'Hand-Drawn 2D' },
+               { label: 'Voxel', value: 'Voxel Art' },
+               { label: 'Noir', value: 'Black and White Noir' }
+             ]
+           },
+           {
+             id: 'engine', label: 'Game Engine', type: 'select',
+             options: [
+               { label: 'Unity', value: 'Unity Engine' },
+               { label: 'Unreal Engine 5', value: 'Unreal Engine 5' },
+               { label: 'Godot', value: 'Godot Engine' },
+               { label: 'GameMaker', value: 'GameMaker Studio' },
+               { label: 'Custom', value: 'Custom Engine' }
+             ]
+           }
+        ]
+      },
+      {
+        title: "Mechanics & Systems",
+        fields: [
+          { id: 'core_loop', label: 'Core Loop', type: 'textarea', placeholder: 'e.g., Explore -> Fight -> Loot -> Upgrade' },
+          { id: 'controls', label: 'Controls', type: 'text', placeholder: 'e.g., Twin-stick shooter controls, Point and Click' },
+          { id: 'multiplayer', label: 'Multiplayer', type: 'select',
+             options: [
+               { label: 'Singleplayer', value: 'Singleplayer experience' },
+               { label: 'Co-op', value: 'Co-op Multiplayer' },
+               { label: 'PvP', value: 'Competitive PvP' },
+               { label: 'MMO', value: 'Massive Multiplayer' }
+             ]
+          }
+        ]
+      },
+      {
+        title: "Platform & Tech",
+        fields: [
+          {
+            id: 'platforms', label: 'Target Platforms', type: 'multiselect',
+            options: [
+              { label: 'PC (Steam)', value: 'PC' },
+              { label: 'PlayStation', value: 'PlayStation' },
+              { label: 'Xbox', value: 'Xbox' },
+              { label: 'Switch', value: 'Nintendo Switch' },
+              { label: 'Mobile', value: 'Mobile (iOS/Android)' },
+              { label: 'Web', value: 'Web / HTML5' }
+            ]
+          }
+        ]
+      }
+    ],
+    template: (v) => {
+      const parts = [];
+      if (v.title) parts.push(`Game Title: ${v.title}`);
+      if (v.genre) parts.push(`Genre: ${v.genre}`);
+      if (v.setting) parts.push(`Setting: ${v.setting}`);
+      if (v.perspective) parts.push(`Perspective: ${v.perspective}`);
+      if (v.art_style) parts.push(`Art Style: ${v.art_style}`);
+      if (v.engine) parts.push(`Engine: ${v.engine}`);
+      if (v.core_loop) parts.push(`Core Loop: ${v.core_loop}`);
+      if (v.multiplayer) parts.push(`Mode: ${v.multiplayer}`);
+      if (v.platforms) parts.push(`Platforms: ${v.platforms}`);
       return parts.join('. ');
     }
   },
