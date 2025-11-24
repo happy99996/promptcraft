@@ -598,106 +598,150 @@ export const BUILDER_CONFIG: Record<PromptCategory, BuilderConfig> = {
   [PromptCategory.GAMES]: {
     sections: [
       {
-        title: "Core Gameplay",
+        title: "Core Identity",
         fields: [
-          { id: 'title', label: 'Game Title', type: 'text', placeholder: 'e.g., Neon Survivors' },
-          { 
-            id: 'genre', label: 'Genre', type: 'multiselect', 
+          { id: 'title', label: 'Project Title', type: 'text', placeholder: 'Codename or Final Title' },
+          {
+            id: 'genre', label: 'Genre', type: 'multiselect',
             options: [
-              { label: 'RPG', value: 'RPG' },
+              { label: 'Action RPG', value: 'Action RPG' },
+              { label: 'Roguelite', value: 'Roguelite' },
+              { label: 'Metroidvania', value: 'Metroidvania' },
               { label: 'FPS', value: 'FPS' },
-              { label: 'Action-Adventure', value: 'Action-Adventure' },
-              { label: 'Platformer', value: 'Platformer' },
-              { label: 'Strategy (RTS/TBS)', value: 'Strategy' },
+              { label: 'Battle Royale', value: 'Battle Royale' },
+              { label: 'MMORPG', value: 'MMORPG' },
+              { label: 'Visual Novel', value: 'Visual Novel' },
+              { label: 'RTS', value: 'Real-Time Strategy' },
+              { label: 'Turn-Based Strategy', value: 'Turn-Based Strategy' },
+              { label: 'Simulation', value: 'Simulation' },
               { label: 'Puzzle', value: 'Puzzle' },
-              { label: 'Roguelike', value: 'Roguelike' },
-              { label: 'Simulation', value: 'Simulation' }
+              { label: 'Horror', value: 'Survival Horror' }
             ]
           },
+          {
+            id: 'audience', label: 'Target Audience', type: 'select',
+            options: [
+              { label: 'Casual', value: 'Casual Players' },
+              { label: 'Mid-core', value: 'Mid-core Players' },
+              { label: 'Hardcore', value: 'Hardcore/Competitive Players' },
+              { label: 'Kids', value: 'Kids & Family' }
+            ]
+          },
+          { id: 'hook', label: 'Unique Selling Point (Hook)', type: 'textarea', placeholder: 'e.g., Time moves only when you move...' }
+        ]
+      },
+      {
+        title: "Visual Direction",
+        fields: [
           {
             id: 'perspective', label: 'Perspective', type: 'select',
             options: [
-              { label: 'Top-Down', value: 'Top-Down view' },
-              { label: 'First-Person', value: 'First-Person perspective' },
-              { label: 'Third-Person', value: 'Third-Person over the shoulder' },
-              { label: 'Isometric', value: 'Isometric view' },
-              { label: 'Side-Scroller', value: '2D Side-Scroller' }
+              { label: '2D Side-Scroller', value: '2D Side-Scroller' },
+              { label: 'Top-Down', value: 'Top-Down' },
+              { label: 'Isometric', value: 'Isometric' },
+              { label: 'First-Person (FPS)', value: 'First-Person' },
+              { label: 'Third-Person (TPS)', value: 'Third-Person' },
+              { label: 'VR', value: 'Virtual Reality' }
             ]
           },
-          { id: 'setting', label: 'Theme/Setting', type: 'textarea', placeholder: 'e.g., Cyberpunk Tokyo, Medieval Fantasy, Space Station...' }
+          {
+            id: 'art_style', label: 'Visual Style', type: 'multiselect',
+            options: [
+              { label: 'Pixel Art', value: 'Pixel Art' },
+              { label: 'Low Poly', value: 'Low Poly' },
+              { label: 'Voxel', value: 'Voxel Art' },
+              { label: 'Cel-Shaded', value: 'Cel-Shaded (Anime)' },
+              { label: 'Photorealistic', value: 'Photorealistic' },
+              { label: 'Hand-Drawn', value: 'Hand-Drawn 2D' },
+              { label: 'Cyberpunk', value: 'Cyberpunk Aesthetic' },
+              { label: 'Dark Fantasy', value: 'Dark Fantasy' },
+              { label: 'Noir', value: 'Noir / Black & White' },
+              { label: 'Retro 90s', value: 'Retro PS1 Style' }
+            ]
+          },
+           { id: 'atmosphere', label: 'Atmosphere/Mood', type: 'text', placeholder: 'e.g., Oppressive, Whimsical, High-Octane' }
         ]
       },
       {
-        title: "Visuals & Art Style",
-        fields: [
-           {
-             id: 'art_style', label: 'Art Style', type: 'select',
-             options: [
-               { label: 'Pixel Art', value: 'Pixel Art' },
-               { label: 'Low Poly', value: 'Low Poly 3D' },
-               { label: 'Photorealistic', value: 'Photorealistic' },
-               { label: 'Stylized (Fortnite)', value: 'Stylized PBR' },
-               { label: 'Hand-Drawn', value: 'Hand-Drawn 2D' },
-               { label: 'Voxel', value: 'Voxel Art' },
-               { label: 'Noir', value: 'Black and White Noir' }
-             ]
-           },
-           {
-             id: 'engine', label: 'Game Engine', type: 'select',
-             options: [
-               { label: 'Unity', value: 'Unity Engine' },
-               { label: 'Unreal Engine 5', value: 'Unreal Engine 5' },
-               { label: 'Godot', value: 'Godot Engine' },
-               { label: 'GameMaker', value: 'GameMaker Studio' },
-               { label: 'Custom', value: 'Custom Engine' }
-             ]
-           }
-        ]
-      },
-      {
-        title: "Mechanics & Systems",
-        fields: [
-          { id: 'core_loop', label: 'Core Loop', type: 'textarea', placeholder: 'e.g., Explore -> Fight -> Loot -> Upgrade' },
-          { id: 'controls', label: 'Controls', type: 'text', placeholder: 'e.g., Twin-stick shooter controls, Point and Click' },
-          { id: 'multiplayer', label: 'Multiplayer', type: 'select',
-             options: [
-               { label: 'Singleplayer', value: 'Singleplayer experience' },
-               { label: 'Co-op', value: 'Co-op Multiplayer' },
-               { label: 'PvP', value: 'Competitive PvP' },
-               { label: 'MMO', value: 'Massive Multiplayer' }
-             ]
-          }
-        ]
-      },
-      {
-        title: "Platform & Tech",
+        title: "Gameplay Mechanics",
         fields: [
           {
-            id: 'platforms', label: 'Target Platforms', type: 'multiselect',
+            id: 'progression', label: 'Progression System', type: 'multiselect',
+            options: [
+              { label: 'XP & Leveling', value: 'XP Leveling System' },
+              { label: 'Skill Tree', value: 'Branching Skill Tree' },
+              { label: 'Loot Based', value: 'Loot/Gear Progression' },
+              { label: 'Metroidvania Unlocks', value: 'Ability Gating' },
+              { label: 'Roguelite Meta', value: 'Permanent Base Upgrades' }
+            ]
+          },
+          {
+            id: 'core_mechanics', label: 'Core Mechanics', type: 'textarea', placeholder: 'Describe the main verbs: Jump, Shoot, Craft, Negotiate...'
+          }
+        ]
+      },
+      {
+        title: "Technical & Platform",
+        fields: [
+          {
+            id: 'engine', label: 'Game Engine', type: 'select',
+            options: [
+              { label: 'Unity', value: 'Unity Engine' },
+              { label: 'Unreal Engine 5', value: 'Unreal Engine 5' },
+              { label: 'Godot', value: 'Godot' },
+              { label: 'Custom', value: 'Custom C++ Engine' },
+              { label: 'Roblox', value: 'Roblox Studio' }
+            ]
+          },
+          {
+            id: 'platforms', label: 'Platforms', type: 'multiselect',
             options: [
               { label: 'PC (Steam)', value: 'PC' },
-              { label: 'PlayStation', value: 'PlayStation' },
-              { label: 'Xbox', value: 'Xbox' },
-              { label: 'Switch', value: 'Nintendo Switch' },
-              { label: 'Mobile', value: 'Mobile (iOS/Android)' },
-              { label: 'Web', value: 'Web / HTML5' }
+              { label: 'PlayStation 5', value: 'PS5' },
+              { label: 'Xbox Series X', value: 'Xbox Series X' },
+              { label: 'Nintendo Switch', value: 'Switch' },
+              { label: 'Mobile (iOS/Android)', value: 'Mobile' },
+              { label: 'Web', value: 'Web/HTML5' }
             ]
           }
+        ]
+      },
+      {
+        title: "Audio & Narrative",
+        fields: [
+           { id: 'soundtrack', label: 'Music Style', type: 'text', placeholder: 'e.g., Synthwave, Orchestral, 8-bit Chiptune' },
+           { id: 'narrative', label: 'Narrative Style', type: 'select',
+             options: [
+               { label: 'Linear', value: 'Linear Story' },
+               { label: 'Branching', value: 'Branching Choices' },
+               { label: 'Environmental', value: 'Environmental Storytelling (Souls-like)' },
+               { label: 'Emergent', value: 'Emergent Gameplay Stories' }
+             ]
+           }
         ]
       }
     ],
     template: (v) => {
       const parts = [];
-      if (v.title) parts.push(`Game Title: ${v.title}`);
+      if (v.title) parts.push(`Project Title: ${v.title}`);
       if (v.genre) parts.push(`Genre: ${v.genre}`);
-      if (v.setting) parts.push(`Setting: ${v.setting}`);
+      if (v.hook) parts.push(`Hook: ${v.hook}`);
+      if (v.audience) parts.push(`Target Audience: ${v.audience}`);
+      
       if (v.perspective) parts.push(`Perspective: ${v.perspective}`);
       if (v.art_style) parts.push(`Art Style: ${v.art_style}`);
+      if (v.atmosphere) parts.push(`Mood: ${v.atmosphere}`);
+      
+      if (v.core_mechanics) parts.push(`Core Mechanics: ${v.core_mechanics}`);
+      if (v.progression) parts.push(`Progression: ${v.progression}`);
+      
       if (v.engine) parts.push(`Engine: ${v.engine}`);
-      if (v.core_loop) parts.push(`Core Loop: ${v.core_loop}`);
-      if (v.multiplayer) parts.push(`Mode: ${v.multiplayer}`);
       if (v.platforms) parts.push(`Platforms: ${v.platforms}`);
-      return parts.join('. ');
+      
+      if (v.soundtrack) parts.push(`Music: ${v.soundtrack}`);
+      if (v.narrative) parts.push(`Narrative: ${v.narrative}`);
+      
+      return parts.join('.\n');
     }
   },
   [PromptCategory.SYSTEM]: {
