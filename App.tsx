@@ -179,7 +179,11 @@ const App: React.FC = () => {
               <Logo className="w-10 h-10 text-white" mousePos={mousePos} />
             </div>
             <div className="flex flex-col">
-                <h1 className="text-xl font-bold tracking-tight text-white leading-none">PromptCraft</h1>
+                <h1 className="text-2xl font-bold tracking-tight leading-none font-['Space_Grotesk']">
+                    <span className={`bg-clip-text text-transparent bg-gradient-to-r from-white via-white ${currentCategoryConfig.gradientFrom} ${currentCategoryConfig.gradientTo} bg-[length:300%_auto] animate-gradient-flow`}>
+                        PromptCraft
+                    </span>
+                </h1>
             </div>
           </div>
           
@@ -200,7 +204,7 @@ const App: React.FC = () => {
             
             {/* Hero */}
             <div className="text-center mb-10 animate-fade-in relative">
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight drop-shadow-2xl">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight drop-shadow-2xl font-['Space_Grotesk']">
                 Transform ideas into <span className={`text-transparent bg-clip-text bg-gradient-to-r ${currentCategoryConfig.gradientFrom} ${currentCategoryConfig.gradientTo} transition-all duration-500`}>golden prompts</span>
               </h2>
               <p className="text-slate-400 text-lg">
